@@ -1,0 +1,8 @@
+--- /home/users/hunter/.vim/backup/create_db.pl~	2004-05-21 11:00:04.000000000 +0200
++++ vexim2/setup/create_db.pl	2004-07-04 20:44:17.374269912 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/local/bin/perl
++#!/usr/bin/perl
+ 
+ use strict;
+ use DBI();
