@@ -1,9 +1,9 @@
-# $Revision: 1.4 $
+# $Revision: 1.5 $
 Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
 Version:	2.0.1
-Release:	0.1
+Release:	1
 License:	BSD-like
 Group:		Networking/Daemons
 Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.gz
@@ -50,6 +50,7 @@ install -d $RPM_BUILD_ROOT/home/services/vexim/locale/{en_EN,ro_RO,hu_HU,de_DE}
 install -d $RPM_BUILD_ROOT/home/services/vexim/locale/{en_EN,ro_RO,hu_HU,de_DE}/LC_MESSAGES
 
 install -d $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
+install -d $RPM_BUILD_ROOT/etc/mail
 
 install LICENSE $RPM_BUILD_ROOT/home/services/vexim/LICENSE
 install vexim/*.php $RPM_BUILD_ROOT/home/services/vexim
@@ -62,7 +63,8 @@ install vexim/locale/en_EN/LC_MESSAGES/*.{po,mo} $RPM_BUILD_ROOT/home/services/v
 
 install setup/create_db.pl $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}/create_db.pl
 install setup/{pgsql,mysql}.sql $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
-install docs/vexim-* $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
+install docs/vexim-* $RPM_BUILD_ROOT/etc/mail
+install docs/configure $RPM_BUILD_ROOT/etc/mail/vexim_exim.conf
 install docs/configure $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}/exim.conf
 
 %clean
@@ -71,13 +73,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc INSTALL LICENSE README TODO docs/*
-#%attr(755,root,root) %{_bindir}/*
-#%{_datadir}/%{name}
 %dir /home/services/vexim
 %attr(755,http,http) /home/services/vexim/*
 %{_examplesdir}/%{name}
-%exclude %{_examplesdir}/create_db.pl
+%attr( 644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/mail/*
 
 %files perl-utils
 %defattr(644,root,root,755)
-%{_examplesdir}/create_db.pl
+%{_examplesdir}/%{name}/create_db.pl
