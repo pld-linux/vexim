@@ -1,44 +1,37 @@
-# $Revision: 1.2 $
+# $Revision: 1.3 $
 Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
 Version:	2.0.1
-Release:	0
-License:	BSD a-like.
+Release:	0.1
+License:	BSD-like
 Group:		Networking/Daemons
 Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.gz
 # Source0-md5:	e0e667e64bc578f64d87d20b749c67d5
 Patch0:		%{name}-perl_location.patch
 URL:		http://silverwraith.com/vexim
-#BuildRequires:
 PreReq:		exim
-#Requires(pre,post):	-
-#Requires(preun):	-
-#Requires(postun):	-
 Requires:	apache
 Requires:	php
-#Provides:	-
-#Obsoletes:	-
-#Conflicts:	-
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Virtual Exim
+Virtual Exim.
 
 %description -l pl
-Wirtualny Exim
+Wirtualny Exim.
 
 %package perl-utils
-Summary:	Virtual Exim - perl utils
-Summary(pl):	Wirtualny Exim - narzêdzia w perlu
+Summary:	Virtual Exim - Perl utils
+Summary(pl):	Wirtualny Exim - narzêdzia w Perlu
 Group:		Networking/Daemons
 Requires:	perl-DBI
 
 %description  perl-utils
-Some perl utils to create database.
+Some Perl utils to create database.
 
 %description perl-utils -l pl
-Narzêdzie w perlu do stworzenia bazy danych.
+Narzêdzie w Perlu do stworzenia bazy danych.
 
 %prep
 %setup -q -n %{name}2
@@ -46,7 +39,6 @@ Narzêdzie w perlu do stworzenia bazy danych.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/home/services/vexim/{config,images,locale}
@@ -56,10 +48,10 @@ install -d $RPM_BUILD_ROOT/home/services/vexim/locale/{en_EN,ro_RO,hu_HU,de_DE}/
 install -d $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
 
 install LICENSE $RPM_BUILD_ROOT/home/services/vexim/LICENSE
-install vexim/*.php $RPM_BUILD_ROOT/home/services/vexim/
+install vexim/*.php $RPM_BUILD_ROOT/home/services/vexim
 
-install vexim/config/*.{php,po,pot} $RPM_BUILD_ROOT/home/services/vexim/config/
-install vexim/images/*.gif $RPM_BUILD_ROOT/home/services/vexim/images/
+install vexim/config/*.{php,po,pot} $RPM_BUILD_ROOT/home/services/vexim/config
+install vexim/images/*.gif $RPM_BUILD_ROOT/home/services/vexim/images
 
 install vexim/locale/en_EN/LC_MESSAGES/*.{po,mo} $RPM_BUILD_ROOT/home/services/vexim/locale/en_EN/LC_MESSAGES
 
@@ -70,22 +62,16 @@ install setup/{pgsql,mysql}.sql $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre
-
-%post
-
-%preun
-
-%postun
-
 %files
 %defattr(644,root,root,755)
-%doc INSTALL  LICENSE  README  TODO docs/*
+%doc INSTALL LICENSE README TODO docs/*
 #%attr(755,root,root) %{_bindir}/*
 #%{_datadir}/%{name}
+%dir /home/services/vexim
 %attr(755,http,http) /home/services/vexim/*
-%{_prefix}/src/examples/%{name}
+%{_examplesdir}/%{name}
+%exclude %{_examplesdir}/create_db.pl
 
 %files perl-utils
 %defattr(644,root,root,755)
-%{_prefix}/src/examples/%{name}/create_db.pl
+%{_examplesdir}/create_db.pl
