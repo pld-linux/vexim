@@ -1,4 +1,4 @@
-# $Revision: 1.3 $
+# $Revision: 1.4 $
 Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
@@ -9,10 +9,14 @@ Group:		Networking/Daemons
 Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.gz
 # Source0-md5:	e0e667e64bc578f64d87d20b749c67d5
 Patch0:		%{name}-perl_location.patch
+Patch1:		%{name}-pld_locations.patch
 URL:		http://silverwraith.com/vexim
 PreReq:		exim
 Requires:	apache
-Requires:	php
+Requires:	php >= 4.2.1
+Requires:	php-pear-DB
+Requires:	php-pear-PEAR
+Requires:	php-gettext
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -58,6 +62,8 @@ install vexim/locale/en_EN/LC_MESSAGES/*.{po,mo} $RPM_BUILD_ROOT/home/services/v
 
 install setup/create_db.pl $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}/create_db.pl
 install setup/{pgsql,mysql}.sql $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
+install docs/vexim-* $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
+install docs/configure $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}/exim.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
