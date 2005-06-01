@@ -1,4 +1,3 @@
-# $Revision: 1.6 $
 Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
@@ -10,7 +9,7 @@ Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.bz2
 # Source0-md5:	d4490e9a4d92ca06bcc945932b7d19f3
 Patch0:		%{name}-perl_location.patch
 Patch1:		%{name}-pld_locations.patch
-URL:		http://silverwraith.com/vexim
+URL:		http://silverwraith.com/vexim/
 PreReq:		exim
 Requires:	apache
 Requires:	php >= 4.2.1
@@ -75,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /home/services/vexim
 %attr(755,http,http) /home/services/vexim/*
 %{_examplesdir}/%{name}
-%attr( 644,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/mail/*
+%config(noreplace) %verify(not md5 mtime size) /etc/mail/*
 
 %files perl-utils
 %defattr(644,root,root,755)
