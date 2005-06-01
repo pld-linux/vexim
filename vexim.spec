@@ -1,4 +1,4 @@
-# $Revision: 1.5 $
+# $Revision: 1.6 $
 Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
@@ -6,8 +6,8 @@ Version:	2.0.1
 Release:	1
 License:	BSD-like
 Group:		Networking/Daemons
-Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.gz
-# Source0-md5:	e0e667e64bc578f64d87d20b749c67d5
+Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.bz2
+# Source0-md5:	d4490e9a4d92ca06bcc945932b7d19f3
 Patch0:		%{name}-perl_location.patch
 Patch1:		%{name}-pld_locations.patch
 URL:		http://silverwraith.com/vexim
@@ -60,7 +60,6 @@ install vexim/images/*.gif $RPM_BUILD_ROOT/home/services/vexim/images
 
 install vexim/locale/en_EN/LC_MESSAGES/*.{po,mo} $RPM_BUILD_ROOT/home/services/vexim/locale/en_EN/LC_MESSAGES
 
-
 install setup/create_db.pl $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}/create_db.pl
 install setup/{pgsql,mysql}.sql $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
 install docs/vexim-* $RPM_BUILD_ROOT/etc/mail
@@ -76,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /home/services/vexim
 %attr(755,http,http) /home/services/vexim/*
 %{_examplesdir}/%{name}
-%attr( 644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/mail/*
+%attr( 644,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/mail/*
 
 %files perl-utils
 %defattr(644,root,root,755)
