@@ -2,11 +2,12 @@ Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
 Version:	2.0.1
-Release:	1.2
+Release:	1.3
 License:	BSD-like
 Group:		Networking/Daemons
 Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.bz2
 # Source0-md5:	d4490e9a4d92ca06bcc945932b7d19f3
+Source1:	%{name}.conf
 Patch0:		%{name}-perl_location.patch
 Patch1:		%{name}-pld_locations.patch
 URL:		http://silverwraith.com/vexim/
@@ -43,13 +44,14 @@ Narzêdzie w Perlu do stworzenia bazy danych.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/httpd \
+	$RPM_BUILD_ROOT%{_veximdir}/{config,images,locale} \
+	$RPM_BUILD_ROOT%{_veximdir}/locale/{en_EN,ro_RO,hu_HU,de_DE} \
+	$RPM_BUILD_ROOT%{_veximdir}/locale/{en_EN,ro_RO,hu_HU,de_DE}/LC_MESSAGES \
+	$RPM_BUILD_ROOT%{_prefix}/src/examples/%{name} \
+	$RPM_BUILD_ROOT/etc/mail
 
-install -d $RPM_BUILD_ROOT%{_veximdir}/{config,images,locale}
-install -d $RPM_BUILD_ROOT%{_veximdir}/locale/{en_EN,ro_RO,hu_HU,de_DE}
-install -d $RPM_BUILD_ROOT%{_veximdir}/locale/{en_EN,ro_RO,hu_HU,de_DE}/LC_MESSAGES
-install -d $RPM_BUILD_ROOT%{_prefix}/src/examples/%{name}
-install -d $RPM_BUILD_ROOT/etc/mail
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/%{name}.conf
 
 install vexim/*.{php,css} $RPM_BUILD_ROOT%{_veximdir}
 install vexim/config/*.php $RPM_BUILD_ROOT%{_veximdir}/config
@@ -67,10 +69,39 @@ install docs/configure $RPM_BUILD_ROOT/etc/mail/vexim_exim.conf
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*%{name}.conf" /etc/httpd/httpd.conf; then
+	echo "Include /etc/httpd/%{name}.conf" >> /etc/httpd/httpd.conf
+	if [ -f /var/lock/subsys/httpd ]; then
+		/usr/sbin/apachectl restart 1>&2
+	fi
+elif [ -d /etc/httpd/httpd.conf ]; then
+	ln -sf /etc/httpd/%{name}.conf /etc/httpd/httpd.conf/99_%{name}.conf
+	if [ -f /var/lock/subsys/httpd ]; then
+		/usr/sbin/apachectl restart 1>&2
+	fi
+fi
+
+%preun
+if [ "$1" = "0" ]; then
+	umask 027
+	if [ -d /etc/httpd/httpd.conf ]; then
+		rm -f /etc/httpd/httpd.conf/99_%{name}.conf
+	else
+		grep -v "^Include.*%{name}.conf" /etc/httpd/httpd.conf > \
+			/etc/httpd/httpd.conf.tmp
+		mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
+	fi
+	if [ -f /var/lock/subsys/httpd ]; then
+		/usr/sbin/apachectl restart 1>&2
+	fi
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc INSTALL README TODO docs/* setup/*.sql
 %config(noreplace) %verify(not md5 mtime size) /etc/mail/*
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd/%{name}.conf
 %dir %{_veximdir}
 %{_veximdir}/config
 %{_veximdir}/images
