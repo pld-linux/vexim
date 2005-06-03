@@ -2,7 +2,7 @@ Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
 Version:	2.0.1
-Release:	1.3
+Release:	1.5
 License:	BSD-like
 Group:		Networking/Daemons
 Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.bz2
@@ -19,6 +19,7 @@ Requires:	webserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_veximdir	%{_datadir}/%{name}
+%define		_sysconfdir	/etc/%{name}
 
 %description
 Virtual Exim.
@@ -44,17 +45,19 @@ Narzêdzie w Perlu do stworzenia bazy danych.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/httpd \
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/httpd} \
 	$RPM_BUILD_ROOT%{_veximdir}/{config,images,locale} \
 	$RPM_BUILD_ROOT%{_veximdir}/locale/{en_EN,ro_RO,hu_HU,de_DE} \
 	$RPM_BUILD_ROOT%{_veximdir}/locale/{en_EN,ro_RO,hu_HU,de_DE}/LC_MESSAGES \
 	$RPM_BUILD_ROOT%{_prefix}/src/examples/%{name} \
 	$RPM_BUILD_ROOT/etc/mail
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/%{name}.conf
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/%{name}.conf
 
 install vexim/*.{php,css} $RPM_BUILD_ROOT%{_veximdir}
-install vexim/config/*.php $RPM_BUILD_ROOT%{_veximdir}/config
+install vexim/config/{a*,f*,h*,i*}.php $RPM_BUILD_ROOT%{_veximdir}/config
+install vexim/config/variables.php $RPM_BUILD_ROOT%{_sysconfdir}
+ln -sf %{_sysconfdir}/variables.php $RPM_BUILD_ROOT%{_veximdir}/config/variables.php
 install vexim/images/*.gif $RPM_BUILD_ROOT%{_veximdir}/images
 
 install vexim/locale/en_EN/LC_MESSAGES/*.mo $RPM_BUILD_ROOT%{_veximdir}/locale/en_EN/LC_MESSAGES
@@ -100,8 +103,11 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc INSTALL README TODO docs/* setup/*.sql
+%{_sysconfdir}
+%attr(640,root,http) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
 %config(noreplace) %verify(not md5 mtime size) /etc/mail/*
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd/%{name}.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/httpd/%{name}.conf
+%attr(640,root,http) %config(noreplace) %{_veximdir}/config/variables.php
 %dir %{_veximdir}
 %{_veximdir}/config
 %{_veximdir}/images
