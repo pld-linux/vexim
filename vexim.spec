@@ -103,17 +103,20 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc INSTALL README TODO docs/* setup/*.sql
-%{_sysconfdir}
-%attr(640,root,http) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
+%attr(640,root,http) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}
 %config(noreplace) %verify(not md5 mtime size) /etc/mail/*
 %config(noreplace) %verify(not md5 mtime size) /etc/httpd/%{name}.conf
 %attr(640,root,http) %config(noreplace) %{_veximdir}/config/variables.php
 %dir %{_veximdir}
-%{_veximdir}/config
+%{_veximdir}/config/auth*.php
+%{_veximdir}/config/functions.php
+%{_veximdir}/config/h*.php
+%{_veximdir}/config/i18n.php
 %{_veximdir}/images
 %{_veximdir}/locale
 %{_veximdir}/*.*
 
 %files perl-utils
 %defattr(644,root,root,755)
+%dir %{_examplesdir}/%{name}
 %{_examplesdir}/%{name}/create_db.pl
