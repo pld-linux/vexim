@@ -1,3 +1,5 @@
+# TODO
+# - webapps
 Summary:	Virtual Exim
 Summary(pl):	Wirtualny Exim
 Name:		vexim
@@ -11,11 +13,11 @@ Source1:	%{name}.conf
 Patch0:		%{name}-perl_location.patch
 Patch1:		%{name}-pld_locations.patch
 URL:		http://silverwraith.com/vexim/
-PreReq:		exim
-Requires:	php4 >= 4.2.1
+Requires:	exim
 Requires:	php-pear-DB
 Requires:	php4-gettext
 Requires:	webserver
+Requires:	webserver(php) >= 4.2.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_veximdir	%{_datadir}/%{name}
