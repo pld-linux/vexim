@@ -1,7 +1,7 @@
 # TODO
 # - webapps
 Summary:	Virtual Exim
-Summary(pl.UTF-8):   Wirtualny Exim
+Summary(pl.UTF-8):	Wirtualny Exim
 Name:		vexim
 Version:	2.0.1
 Release:	1.5
@@ -31,7 +31,7 @@ Wirtualny Exim.
 
 %package perl-utils
 Summary:	Virtual Exim - Perl utils
-Summary(pl.UTF-8):   Wirtualny Exim - narzędzia w Perlu
+Summary(pl.UTF-8):	Wirtualny Exim - narzędzia w Perlu
 Group:		Networking/Daemons
 Requires:	perl-DBI
 
