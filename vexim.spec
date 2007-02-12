@@ -1,7 +1,7 @@
 # TODO
 # - webapps
 Summary:	Virtual Exim
-Summary(pl):	Wirtualny Exim
+Summary(pl.UTF-8):   Wirtualny Exim
 Name:		vexim
 Version:	2.0.1
 Release:	1.5
@@ -26,20 +26,20 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Virtual Exim.
 
-%description -l pl
+%description -l pl.UTF-8
 Wirtualny Exim.
 
 %package perl-utils
 Summary:	Virtual Exim - Perl utils
-Summary(pl):	Wirtualny Exim - narzêdzia w Perlu
+Summary(pl.UTF-8):   Wirtualny Exim - narzÄ™dzia w Perlu
 Group:		Networking/Daemons
 Requires:	perl-DBI
 
 %description  perl-utils
 Some Perl utils to create database.
 
-%description perl-utils -l pl
-Narzêdzie w Perlu do stworzenia bazy danych.
+%description perl-utils -l pl.UTF-8
+NarzÄ™dzie w Perlu do stworzenia bazy danych.
 
 %prep
 %setup -q -n %{name}2
