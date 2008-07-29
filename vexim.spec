@@ -3,15 +3,13 @@
 Summary:	Virtual Exim
 Summary(pl.UTF-8):	Wirtualny Exim
 Name:		vexim
-Version:	2.0.1
-Release:	1.5
+Version:	2.2.1
+Release:	1
 License:	BSD-like
 Group:		Networking/Daemons
-Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.bz2
-# Source0-md5:	d4490e9a4d92ca06bcc945932b7d19f3
+Source0:	http://silverwraith.com/vexim/%{name}%{version}.tar.gz
+# Source0-md5:	ddb810b1ebf14b70dd48765764e07ee3
 Source1:	%{name}.conf
-Patch0:		%{name}-perl_location.patch
-Patch1:		%{name}-pld_locations.patch
 URL:		http://silverwraith.com/vexim/
 Requires:	exim
 Requires:	php-pear-DB
@@ -43,7 +41,6 @@ Narzędzie w Perlu do stworzenia bazy danych.
 
 %prep
 %setup -q -n %{name}2
-%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
